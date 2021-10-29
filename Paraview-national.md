@@ -18,16 +18,39 @@ Lorsque vous utilisez Paraview sur votre ordinateur local, les parties _Serveur 
 ## Connexion à un serveur distant
 Nous allons nous connecter à un serveur qui simulera une grappe de calcul à Calcul Canada. Il s'agit d'un environnement JupyterHub https://jupyter.org/hub et simplifie grandement les étapes de connexion à la partie serveur de Paraview. 
 
+D'abord, vous tombez sur le menu de connexion, dans lequel vous sélectionnez Paraview server
+
+
 ![juphub.PNG](attachment:juphub.PNG)
+
+Il y a un temps d'attente, ne désespérez pas!
+
+
+![loading.PNG](attachment:loading.PNG)
+
+Vous obtenez les instructions de connexion. La première étape (le tunnel SSH) se fait dans un terminal - vous pouvez utiliser powershell, un terminal linux (ou mac), VScode, MobaXterm...
+
 
 ![instructions.PNG](attachment:instructions.PNG)
 
+Lors de votre première connexion, vous devrez taper "yes" pour valider l'authenticité 
+
+
+![warning.PNG](attachment:warning.PNG)
+
+
+
+Une fois le tunnel SSH établi, vous pourrez entrer les informations de connexion dans Paraview et vous serez connecté!
+
+
 ![connect.PNG](attachment:connect.PNG)
+
+
 
 ![launch.PNG](attachment:launch.PNG)
 
 
-Cependant, vous pouvez suivre ces instructions pour vous connecter sur les autres serveurs de Calcul Canada.
+Sur les serveurs de Calcul Canada, la marche à suivre est légèrement différente, mais nous avons des instructions pour vous:
 
 https://docs.computecanada.ca/wiki/ParaView/fr#Visualisation_client-serveur
 
@@ -65,11 +88,25 @@ Paraview fonctionne grâce à l'interface graphique, mais également à l'aide d
 2. Documenter et sauvegarder votre processus de travail
 3. Utiliser Paraview sur un serveur à partir de la ligne de commandes ou en mode _batch_
 
-Paraview utilise Python comme langage de programmation. Dans l'interface graphique, vous pouvez ouvrir un interpréteur Python avec Python shell où vous pouvez coller et rouler votre code. Sans l'interface graphique, vous pouvez utiliser pvpython (shell Python connecté à un serveur Paraview local ou distant). Sur serveur, pvbatch --force-offscreen-rendering script.py permet le rendu en série. paraview --script=script.py démarre l'interface de Paraview et roule le code automatiquement.
+Paraview utilise Python comme langage de programmation. Dans l'interface graphique, vous pouvez ouvrir un interpréteur Python avec Python shell où vous pouvez coller et rouler votre code. 
+
+![pythonshell.png](attachment:pythonshell.png)
+
+Sans l'interface graphique, vous pouvez utiliser pvpython (shell Python connecté à un serveur Paraview local ou distant). Sur serveur, 
+
+pvbatch --force-offscreen-rendering script.py permet le rendu en série. 
+
+paraview --script=script.py démarre l'interface de Paraview et roule le code automatiquement.
 
 Cependant, vous ne devez pas nécessairement connaître Python pour utiliser des scripts. Il existe un outil nommé _trace_ qui prend note de toutes les étapes de votre processus et les sauvegarde dans un script que vous pouvez réutiliser. Nous allons utiliser cet outil avec un jeu de données simple:
 
-Démarrez trace: Tools - Start/Stop Trace
+Démarrez trace: Tools - Start Trace
+
+![starttrace.PNG](attachment:starttrace.PNG)
+
+Vous pouvez ajuster le niveau de détail de ce qui est sauvegardé
+
+![traceproperties.PNG](attachment:traceproperties.PNG)
 
 1. Chargez le jeu de données disk_out_ref.ex2
 2. Appliquez un premier filtre: Filters - Alphabetical - Extract surface
@@ -77,10 +114,14 @@ Démarrez trace: Tools - Start/Stop Trace
 
 Arrêtez trace: Tools - Start/Stop Trace
 
-Vous constaterez que Paraview vous offre automatiquement un script que vous pouvez sauvegarder pour le réutiliser. Vous pouvez le niveau de détail que vous voulez dans le menu d'options.
+![stoptrace.PNG](attachment:stoptrace.PNG)
+
+Vous constaterez que Paraview vous offre automatiquement un script que vous pouvez sauvegarder pour le réutiliser. 
+
+![tracecode.PNG](attachment:tracecode.PNG)
 
 
-
+Comme vous constatez, le niveau de détail est très élevé. Ce n'est pas toujours pertinent de garder le maximum de détails, mais ça peut servir d'outil d'apprentissage si vous n'êtes pas familier avec Paraview ou Python. L'interpréteur peut être utilisé indépendamment de l'outil trace. Dans Paraview, cliquez sur "Reset Session". Dans l'interpréteur, tapez le code suivant:
 
 
 ```python
@@ -103,7 +144,7 @@ help(sphere) # montre seulement les attributs de l'objet
 dir(paraview.simple)
 ```
 
-Nous allons maintenant créer un modifier notre propre script
+Nous allons maintenant créer un _modifier_ notre propre script
 
 
 ```python
@@ -115,42 +156,86 @@ Render()
 ```
 
 Remplacez Show() par Show(sphere): comment expliquez-vous la différence?
+
 Remplacez Render() par SaveScreenshot("chemin/vers/wireframe.png") et roulez le avec pvbatch
 
 # 4. Animations avancée avec l'interface graphique et avec un script
 Les animations peuvent également être scriptées en python.
 
-1. Chargez data/sineEnvelope.nc et dessinez une isosurface à p=0.15
+Lorsque vous le faites à la main, vous devez ouvrir l'outil Animation View.
+
+
+1. Chargez les sources Axes et 3D text.
+2. Choissez Camera et Orbit
+3. Sauvegardez l'animation
+
+* Sauvegarder en .avi vous donnera un vidéo de faible qualité
+* Sauvegarder en d'autres formats vous donnera une série d'images
+
+![saveanimation.PNG](attachment:saveanimation.PNG)
+
+Vous pouvez également faire les animations à l'aide du code.
+
+1. Chargez les sources Axes et 3D text.
 2. Comparez le point focal au centre de rotation
+
+
+```python
 v1 = GetActiveView()
-print v1.CameraFocalPoint
-print v1.CenterOfRotation
+print(v1.CameraFocalPoint)
+print(v1.CenterOfRotation)
 
 ResetCamera()
+```
 
 3. Jetez un coup d'oeil aux rotations d'azimuth
+
+
+```python
 dir(GetActiveCamera())
 help(GetActiveCamera().Azimuth)
+```
 
 4. Faites une rotation de 10 degrés 
+
+
+```python
 camera = GetActiveCamera()
 camera.Azimuth(10)
 Render()
-    
-Vous pouvez sauvegarder les rendus à la main:
-* Sauvegarder en .avi vous donnera un vidéo de faible qualité
-* Sauvegarder en d'autres formats vous donnera une série d'images: pas de problème! Vous pouvez les traiter dans des logiciels d'édition vidéo comme Video Editor ou Quicktime.
-* Vous pouvez également convertir les photos en vidéo automatiquement à l'aide de FFmpeg
+```
 
+Lorsque vous avez votre série d'images, vous pouvez les traiter dans des logiciels d'édition vidéo comme Video Editor ou Quicktime. Vous pouvez également convertir les photos en vidéo automatiquement à l'aide de FFmpeg.
+
+
+```python
+v1 = GetActiveView()
 nframes = 360
 camera = GetActiveCamera()
 for i in range(nframes):
     print(v1.CameraPosition)
     camera.Azimuth(360./nframes)   # rotate by 1 degree
-    SaveScreenshot('path/vers/frame%04d'%(i)+'.png') # MODIFIEZ CETTE PARTIE
+    SaveScreenshot('/chemin/vers/emplacement/sur/votre/ordinateur/frame%04d'%(i)+'.png') # MODIFIEZ CETTE PARTIE
+```
 
+Dans votre fureteur, remplacez la fin de l'URL par _lab_ et ajoutez les fichiers d'images dans un dossier. L'étape 5 vous fera ouvrir un terminal.
+
+![uploadimages.png](attachment:uploadimages.png)
+
+Puis, dans le terminal, adaptez et tapez ces commandes:
+
+
+```python
+cd images/
 ffmpeg -r 30 -i frame%04d.png -c:v libx264 -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" spin.mp4
+```
 
+après quelques instants, vous devriez obtenir un fichier nommé spin.mp4 que vous pourrez télécharger.
+
+Vous pouvez répéter ces mêmes opérations avec ce nouveau code.
+
+
+```python
 v1 = GetActiveView()
 initialCameraPosition = v1.CameraPosition[:]   # force a real copy, not a pointer
 nframes = 100
@@ -158,11 +243,11 @@ for i in range(nframes):
     coef = float(i+0.5)/float(1.5*nframes)  # runs from 0 to 2/3
     print(coef, v1.CameraPosition)
     v1.CameraPosition = [((1.-coef)*a + coef*b) for a, b in zip(initialCameraPosition,v1.CameraFocalPoint)]
-    SaveScreenshot('path/vers/out%04d'%(i)+'.png') # MODIFIEZ CETTE PARTIE
+    SaveScreenshot('/chemin/vers/emplacement/sur/votre/ordinateur/out%04d'%(i)+'.png') # MODIFIEZ CETTE PARTIE
 
 ffmpeg -r 30 -i out%04d.png -c:v libx264 -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" approach.mp4
-    
-    
+```
+
 # 5. Visualisation à distance: Rendu CPU vs GPU
 Depuis le début, nous travaillons en mode client-serveur. C'est une des méthodes de visualisation à distance avec Paraview. Vous pourriez avoir un bureau à distance et démarrer l'interface de Paraview à l'aide de VNC, mais il ne s'agit pas de l'option la plus efficace. Vous pourriez utiliser votre script en mode batch série ou parallèle. 
 
@@ -182,14 +267,19 @@ Notez que les CPUs sont des ressources beaucoup plus abondantes à Calcul Canada
 ### Combien de processeurs devrais-je utiliser?
 
 Ça dépend. Les goulots d'étranglement sont la mémoire physique, la vitesse de lecture sur le disque et seulement ensuite le temps de rendu CPU/GPU. 
-* Pour des jeux de données structurés: Points structurés, Grilles rectilinéaires, Grilles structurées
-    Un coeur par ~20 millions de cellules (5-10 millions de cellules encore mieux)
+* Pour des jeux de données structurés: Points structurés, Grilles rectilinéaires, Grilles structurées:
+
+  Un coeur par ~20 millions de cellules (5-10 millions de cellules encore mieux)
+  
+  
 * Pour des jeux de données non structurés: Points non structurés, Données polygonales, Grilles non structurées:
-    Un coeur par 5-10 millions de cellules (250k-500k cellules encore mieux)
-Par exemple, un jeu de données de 80GB sur un noeud de base de 128GB de RAM et 32 coeurs (3.5GB/coeur) = 23 coeurs pour le jeu de dnnées. Ensuite, vous devez compter les potentielles copies, les filtres, etc, il vous faut un minimum de 32 coeurs. Dependant des filtres, vous serez plus confortables avec 48-64 coeurs.
+  
+  Un coeur par million de cellules (250k-500k cellules encore mieux)
+  
+Par exemple, un jeu de données de 80Go sur un noeud de base de 128GB de RAM et 32 coeurs (3.5Go/coeur) = 23 coeurs pour le jeu de données. Ensuite, vous devez compter les potentielles copies, les filtres, etc, il vous faut un minimum de 32 coeurs. Dépendant des filtres, vous serez plus confortable avec 48-64 coeurs.
 
 Bon à savoir:
-* Évitez l’explosion de données: PV essaye de limiter les “fausses” copies qui pointent vers l’original
+* Évitez l’explosion de données: Paraview essaye de limiter les “fausses” copies qui pointent vers l’original
 * Investiguez toujours les besoins des filtres: 
     des fois, pas le choix de faire une copie! <= à éviter si vous allez manquer de RAM!
     des fois, les filtres créent des données non-structurées à partir de données structurées!
@@ -199,7 +289,9 @@ Bon à savoir:
     “Extract subset” si on ne sait pas trop
 
 ### Comment savoir ce que j'utilise?
-Il y a un menu dans l'interface qui vous permet de visualiser la pression sur les coeurs distants que vous utilisez.
+Il y a un menu dans l'interface qui vous permet de visualiser l'utilisation de la mémoire par les différents coeurs. Vous pouvez l'ouvrir avec View - Memory Inspector.
+
+![memory-inspector.PNG](attachment:memory-inspector.PNG)
 
 ### Comment contrôler la charge de rendu est partagée entre mon ordinateur et le serveur distant?
 L'équipe de Paraview a développé plusieurs algorithme qui permettent de compresser l’image et de la recomposer selon les ressources locales!
@@ -216,12 +308,42 @@ Vous avez également du contrôle sur le niveau de détail dans le rendu (Level 
 
 Lorsque vous effectuez un déplacement dans la fenêtre de visualisation, la résolution tombe automatiquement à intéractif.
 
-Vous pouvez aussi ajuster l'option Remote Render Threshold (valeur minimale en MB au-dessus de laquelle le rendu se fera à distance): par défaut 20MB. 0MB = rendu totalement à distance. Il se peut que vous ayez besoin de faire quelques essais pour trouver une valeur optimale.
+Vous pouvez aussi ajuster l'option Remote Render Threshold (valeur minimale en MB au-dessus de laquelle le rendu se fera à distance): 
+
+* par défaut 20MB. 
+* 0MB = rendu totalement à distance. 
+
+Il se peut que vous ayez besoin de faire quelques essais pour trouver une valeur optimale.
 
 ### Mais le rendu avec plusieurs coeurs, ça se fait comment?
 
-Encore une fois, Paraview est équipé de plusieurs modes de rendus qui influenceront la rapidité du rendu et vos besoins en RAM. Nous explorerons le rendu parallèle avec une figure simple pour comprendre les fonctionnement de base.
+Encore une fois, Paraview est équipé de plusieurs modes de rendu qui influenceront la rapidité du rendu et vos besoins en RAM. Nous explorerons le rendu parallèle avec une figure simple pour comprendre les fonctionnement de base.
 ![rendering.PNG](attachment:rendering.PNG)
+
+Dans un fichier appelé vtksphere.py:
+
+
+```python
+from paraview.simple import *
+sphere = Sphere()
+rep = Show()
+ColorBy(rep, ("POINTS", "vtkProcessId"))
+Render()
+rep.RescaleTransferFunctionToDataRange(True)
+Render()
+WriteImage("parasphere.png")
+```
+
+Sinon, prendre Sources - Sphere et choisir la coloration par vtkProcessId
+
+### Tous les rendus parallèles ne sont pas nés égaux - la partition de données et les _Ghost Levels_
+Les algorithmes de séparation des jeux de données créer des zones partagées par deux processus nommées _cellules fantômes_ ou _ghost cells_
+
+![ghost.PNG](attachment:ghost.PNG)
+
+![ghostcells.PNG](attachment:ghostcells.PNG)
+
+
 
 
 ```python
