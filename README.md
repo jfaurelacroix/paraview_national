@@ -1,5 +1,5 @@
 # Paraview National
-Vous trouverez les données, les codes et les [notes de cours](paraview-training.md).
+Vous trouverez les données, les codes et les [notes de cours](Paraview-national.md).
 
 1. Téléchargez le fichier zip
 2. Dézippez pour explorer les dossiers codes, data et voir le PDF des notes.
