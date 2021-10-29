@@ -11,9 +11,9 @@ Vous devriez normalement être familiers avec l'interface de Paraview sur votre 
 
 Lorsque vous utilisez Paraview sur votre ordinateur local, les parties _Serveur de données_, _Serveur de rendu_ et _Client_ se trouvent tous sur la même machine. Cependant, il se pourrait que vous ayez à faire face à des limitation en mémoire RAM ou en capacité de CPU ou GPU par exemple. Lorsque vous avez affaire à de plus gros jeux de données, vous pouvez séparer ces parties et traiter les données à distance à partir du Client sur votre ordinateur. 
 
-![modesrendu.PNG](attachment:modesrendu.PNG)
+![modesrendu.PNG](modesrendu.PNG)
 
-![remote.png](attachment:remote.png)
+![remote.png](remote.png)
 
 ## Connexion à un serveur distant
 Nous allons nous connecter à un serveur qui simulera une grappe de calcul à Calcul Canada. Il s'agit d'un environnement JupyterHub https://jupyter.org/hub et simplifie grandement les étapes de connexion à la partie serveur de Paraview. 
@@ -21,33 +21,33 @@ Nous allons nous connecter à un serveur qui simulera une grappe de calcul à Ca
 D'abord, vous tombez sur le menu de connexion, dans lequel vous sélectionnez Paraview server
 
 
-![juphub.PNG](attachment:juphub.PNG)
+![juphub.PNG](juphub.PNG)
 
 Il y a un temps d'attente, ne désespérez pas!
 
 
-![loading.PNG](attachment:loading.PNG)
+![loading.PNG](loading.PNG)
 
 Vous obtenez les instructions de connexion. La première étape (le tunnel SSH) se fait dans un terminal - vous pouvez utiliser powershell, un terminal linux (ou mac), VScode, MobaXterm...
 
 
-![instructions.PNG](attachment:instructions.PNG)
+![instructions.PNG](instructions.PNG)
 
 Lors de votre première connexion, vous devrez taper "yes" pour valider l'authenticité 
 
 
-![warning.PNG](attachment:warning.PNG)
+![warning.PNG](warning.PNG)
 
 
 
 Une fois le tunnel SSH établi, vous pourrez entrer les informations de connexion dans Paraview et vous serez connecté!
 
 
-![connect.PNG](attachment:connect.PNG)
+![connect.PNG](connect.PNG)
 
 
 
-![launch.PNG](attachment:launch.PNG)
+![launch.PNG](launch.PNG)
 
 
 Sur les serveurs de Calcul Canada, la marche à suivre est légèrement différente, mais nous avons des instructions pour vous:
@@ -80,7 +80,7 @@ Nous allons commencer par
 6. Vous pouvez ajouter des vues en cliquant une image avec le bouton droit et sélectionnez "link Camera" et ensuite en cliquant sur l'autre image
 
 Voici un résumé du processus impliqué dans le rendu des données chargées:
-![workflow.PNG](attachment:workflow.PNG)
+![workflow.PNG](workflow.PNG)
 
 # 3. Scriptage: trace, scripts simples
 Paraview fonctionne grâce à l'interface graphique, mais également à l'aide de script. Vous pourriez vouloir utiliser des scripts pour:
@@ -90,7 +90,7 @@ Paraview fonctionne grâce à l'interface graphique, mais également à l'aide d
 
 Paraview utilise Python comme langage de programmation. Dans l'interface graphique, vous pouvez ouvrir un interpréteur Python avec Python shell où vous pouvez coller et rouler votre code. 
 
-![pythonshell.png](attachment:pythonshell.png)
+![pythonshell.png](pythonshell.png)
 
 Sans l'interface graphique, vous pouvez utiliser pvpython (shell Python connecté à un serveur Paraview local ou distant). Sur serveur, 
 
@@ -102,11 +102,11 @@ Cependant, vous ne devez pas nécessairement connaître Python pour utiliser des
 
 Démarrez trace: Tools - Start Trace
 
-![starttrace.PNG](attachment:starttrace.PNG)
+![starttrace.PNG](starttrace.PNG)
 
 Vous pouvez ajuster le niveau de détail de ce qui est sauvegardé
 
-![traceproperties.PNG](attachment:traceproperties.PNG)
+![traceproperties.PNG](traceproperties.PNG)
 
 1. Chargez le jeu de données disk_out_ref.ex2
 2. Appliquez un premier filtre: Filters - Alphabetical - Extract surface
@@ -114,11 +114,11 @@ Vous pouvez ajuster le niveau de détail de ce qui est sauvegardé
 
 Arrêtez trace: Tools - Start/Stop Trace
 
-![stoptrace.PNG](attachment:stoptrace.PNG)
+![stoptrace.PNG](stoptrace.PNG)
 
 Vous constaterez que Paraview vous offre automatiquement un script que vous pouvez sauvegarder pour le réutiliser. 
 
-![tracecode.PNG](attachment:tracecode.PNG)
+![tracecode.PNG](tracecode.PNG)
 
 
 Comme vous constatez, le niveau de détail est très élevé. Ce n'est pas toujours pertinent de garder le maximum de détails, mais ça peut servir d'outil d'apprentissage si vous n'êtes pas familier avec Paraview ou Python. L'interpréteur peut être utilisé indépendamment de l'outil trace. Dans Paraview, cliquez sur "Reset Session". Dans l'interpréteur, tapez le code suivant:
@@ -172,7 +172,7 @@ Lorsque vous le faites à la main, vous devez ouvrir l'outil Animation View.
 * Sauvegarder en .avi vous donnera un vidéo de faible qualité
 * Sauvegarder en d'autres formats vous donnera une série d'images
 
-![saveanimation.PNG](attachment:saveanimation.PNG)
+![saveanimation.PNG](saveanimation.PNG)
 
 Vous pouvez également faire les animations à l'aide du code.
 
@@ -220,7 +220,7 @@ for i in range(nframes):
 
 Dans votre fureteur, remplacez la fin de l'URL par _lab_ et ajoutez les fichiers d'images dans un dossier. L'étape 5 vous fera ouvrir un terminal.
 
-![uploadimages.png](attachment:uploadimages.png)
+![uploadimages.png](uploadimages.png)
 
 Puis, dans le terminal, adaptez et tapez ces commandes:
 
@@ -291,7 +291,7 @@ Bon à savoir:
 ### Comment savoir ce que j'utilise?
 Il y a un menu dans l'interface qui vous permet de visualiser l'utilisation de la mémoire par les différents coeurs. Vous pouvez l'ouvrir avec View - Memory Inspector.
 
-![memory-inspector.PNG](attachment:memory-inspector.PNG)
+![memory-inspector.PNG](memory-inspector.PNG)
 
 ### Comment contrôler la charge de rendu est partagée entre mon ordinateur et le serveur distant?
 L'équipe de Paraview a développé plusieurs algorithme qui permettent de compresser l’image et de la recomposer selon les ressources locales!
@@ -300,11 +300,11 @@ L'équipe de Paraview a développé plusieurs algorithme qui permettent de compr
 * Zlib - meilleur résultat, plus lent
 * LZ4 - récent, rapide
 
-![compression.png](attachment:compression.png)
+![compression.png](compression.png)
 
 Vous avez également du contrôle sur le niveau de détail dans le rendu (Level of Detail: LOD) dans le menu Render View - Remote/Parallel Rendering options
 
-![resolution.PNG](attachment:resolution.PNG)
+![resolution.PNG](resolution.PNG)
 
 Lorsque vous effectuez un déplacement dans la fenêtre de visualisation, la résolution tombe automatiquement à intéractif.
 
@@ -318,7 +318,7 @@ Il se peut que vous ayez besoin de faire quelques essais pour trouver une valeur
 ### Mais le rendu avec plusieurs coeurs, ça se fait comment?
 
 Encore une fois, Paraview est équipé de plusieurs modes de rendu qui influenceront la rapidité du rendu et vos besoins en RAM. Nous explorerons le rendu parallèle avec une figure simple pour comprendre les fonctionnement de base.
-![rendering.PNG](attachment:rendering.PNG)
+![rendering.PNG](rendering.PNG)
 
 Dans un fichier appelé vtksphere.py:
 
@@ -339,9 +339,9 @@ Sinon, prendre Sources - Sphere et choisir la coloration par vtkProcessId
 ### Tous les rendus parallèles ne sont pas nés égaux - la partition de données et les _Ghost Levels_
 Les algorithmes de séparation des jeux de données créer des zones partagées par deux processus nommées _cellules fantômes_ ou _ghost cells_
 
-![ghost.PNG](attachment:ghost.PNG)
+![ghost.PNG](ghost.PNG)
 
-![ghostcells.PNG](attachment:ghostcells.PNG)
+![ghostcells.PNG](ghostcells.PNG)
 
 
 
