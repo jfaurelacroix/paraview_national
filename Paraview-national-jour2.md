@@ -97,8 +97,6 @@ Vous devriez également identifier un problème avec le poumon gauche: de quoi s
 
 ![chestlung.PNG](chestlung.PNG)
 
-
-
 ### Données de Lac
 Nous allons maintenant nous connecter sur l'environnement JupyterHub pour utiliser des données de Lac et de terrain.
 
