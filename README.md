@@ -12,7 +12,9 @@ https://www.paraview.org/download/
 
 # Contenu de la formation
 1. Architecture de Paraview: Local, connexion à un serveur distant
-2. Retour sur la base: filtres, pipelines, vector fields
+2. Retour sur la base: filtres, pipelines
 3. Scriptage: trace, scripts simples
 4. Animations avancée avec l'interface graphique et avec un script
-5. Visualisation à distance: Rendu CPU vs GPU, rendu en mode _batch_ 
+5. Visualisation à distance: Rendu CPU, exploration du rendu parallèle
+6. Exercices avec jeux de données: lac et données médicales
+7. [Visualisation faites ailleurs](https://www.youtube.com/watch?v=RG0G0VCd41Y&t=69s)
