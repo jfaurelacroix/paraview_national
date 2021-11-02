@@ -1,5 +1,7 @@
 # Paraview National
-Vous trouverez les données, les codes et les [notes de cours](Paraview-national.md).
+Vous trouverez les données, les codes et les notes de cours du [jour 1](Paraview-national-jour1.md) et [jour 2](Paraview-national-jour2.md).
+
+Les fichiers seront disponibles sur le serveur, mais vous aurez également besoin des fichiers localement.
 
 1. Téléchargez le fichier zip
 2. Dézippez pour explorer les dossiers codes, data et voir le PDF des notes.
